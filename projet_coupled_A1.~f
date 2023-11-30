@@ -68,9 +68,9 @@
        kobdo=(4./2.)
        kdoso=(37./38000.)
        ksodo=(33./1000.)
-       gammal=(-4.)
-       gammao= -(30./20.)
-       lambda=2.1/(5.35*log(2.))
+       gammal=(0)   !GAMMA CHANGE !!!!!!!!
+       gammao= -(0)
+       lambda=2.5/(5.35*log(2.))
        Boce=0.25
        Bland=0.35
        tstep=1
@@ -99,6 +99,8 @@
 
        open(unit=1, file='projet_coupledA2.txt', status='unknown')
        open(unit=3, file='finA2.txt', status='unknown')
+       open(unit=2, file='reserv_A2.txt', status='unknown')
+       open(unit=5, file='outclim_A2.txt', status='unknown')
        do t=1, 250, 1
        Fatb(t)=Fatb(0)*(1+Bland*log(Matm(t-1)/Matm(0)))
        Fatb(t)=Fatb(t)+gammal*deltaT(t-1)
@@ -132,11 +134,15 @@
        deltaT(t)=lambda*Q(t)
 
 
-      write(1,*)t+t0,Matm(t),netfluxe(t),netfluxo(t),deltaT(t),fin1850
-
-      print*,t+t0,Matm(t),netfluxe(t),netfluxo(t),deltaT(t),fin1850(t)
-       write(3,*)t+1850, fin1850(t)
-        print*, t+1850,fin1850(t)
+      !write(1,*)t+t0,Matm(t),netfluxe(t),netfluxo(t),deltaT(t),fin1850
+      !print*,t+t0,Matm(t),netfluxe(t),netfluxo(t),deltaT(t),fin1850(t)
+       !write(3,*)t+1850, fin1850(t)
+        !print*, t+1850,fin1850(t)
+        
+       ! write(2,*)t+t0,Mls(t), Mtb(t), Mso(t), Mob(t), Mdo(t)
+        !print*,t+t0,Mls(t), Mtb(t), Mso(t), Mob(t), Mdo(t)
+        write(5,*)t+t0, Matm(t), deltaT(t)
+        print*,t+t0, Matm(t), deltaT(t)
        enddo
        stop
 

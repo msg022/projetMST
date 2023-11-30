@@ -99,7 +99,8 @@
 
        open(unit=1, file='projet_coupledB1.txt', status='unknown')
        open(unit=3, file='finB1.txt', status='unknown')
-       do t=1, 250, 1
+       open(unit=2, file='reserv_B1.txt', status='unknown')
+              do t=1, 250, 1
        Fatb(t)=Fatb(0)*(1+0.35*log(Matm(t-1)/Matm(0)))
        Fatb(t)=Fatb(t)+gammal*deltaT(t-1)
        !kaso(t)=kaso(0)*(1-0.0009434*(Matm(t-1)-600.))
@@ -132,10 +133,12 @@
        deltaT(t)=lambda*Q(t)
 
 
-       write (1,*) t+1850, Matm(t), netfluxe(t), netfluxo(t), deltaT(t)
-        print*, t+1850, Matm(t), netfluxe(t), netfluxo(t), deltaT(t)
-        write(3,*)t+1850, fin1850(t)
-        print*, t+1850,fin1850(t)
+       !write (1,*) t+1850, Matm(t), netfluxe(t), netfluxo(t), deltaT(t)
+        !print*, t+1850, Matm(t), netfluxe(t), netfluxo(t), deltaT(t)
+        !write(3,*)t+1850, fin1850(t)
+        !print*, t+1850,fin1850(t)
+         !write(2,*)t+t0,Mls(t), Mtb(t), Mso(t), Mob(t), Mdo(t)
+        !print*,t+t0,Mls(t), Mtb(t), Mso(t), Mob(t), Mdo(t)
        enddo
        pause
 

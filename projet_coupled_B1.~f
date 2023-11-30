@@ -70,7 +70,7 @@
        ksodo=(33./1000.)
        gammal=(-4.)
        gammao= -(30./20.)
-       lambda=2.1/(5.35*log(2.))
+       lambda=2.5/(5.35*log(2.))
        Boce=0.25
        Bland=0.35
        tstep=1

@@ -68,8 +68,8 @@
        kobdo=(4./2.)
        kdoso=(37./38000.)
        ksodo=(33./1000.)
-       gammal=(-4.)
-       gammao= -(30./20.)
+       gammal=(0)   !GAMMA CHANGE !!!!!!!!
+       gammao= -(0)
        lambda=2.5/(5.35*log(2.))
        Boce=0.25
        Bland=0.35
@@ -78,18 +78,18 @@
 
 
        !read data from .txt
-       open (unit=1, file='A2.txt', status='old')
-       read (1,*)high
+       open (unit=12, file='A2.txt', status='old')
+       read (12,*)high
        do k=1, 11, 1
        !read(1,*), yrreal(k), finhigh(k)
        finhigh(k)=high(2,k)
        time(k)=high(1,k)
         !print*, time(k) , finhigh(k)
        enddo
-       close(1)
+       close(12)
 
-       open (unit=1, file='FinobsA2.txt', status='old')
-       read (1,*)donnees
+       open (unit=13, file='FinobsA2.txt', status='old')
+       read (13,*)donnees
 
        do t=1,250
        fin1850(t)=donnees(2,t)
@@ -99,6 +99,9 @@
 
        open(unit=1, file='projet_coupledA2.txt', status='unknown')
        open(unit=3, file='finA2.txt', status='unknown')
+       open(unit=2, file='reserv_A2.txt', status='unknown')
+       open(unit=5, file='outclim_A2.txt', status='unknown')
+       open(unit=6, file='AF_A2.txt', status='unknown')
        do t=1, 250, 1
        Fatb(t)=Fatb(0)*(1+Bland*log(Matm(t-1)/Matm(0)))
        Fatb(t)=Fatb(t)+gammal*deltaT(t-1)
@@ -126,17 +129,23 @@
        netfluxe(t)=Fatb(t)-Ftba(t)-Flsa(t)
        netfluxo(t)=Faso(t)-Fsoa(t)
 
-       !AF(t)=(Matm(t)-Matm(t-1))/Fin(t)
+       AF(t)=(Matm(t)-Matm(t-1))/fin1850(t)
 
        Q(t)=5.35*log((Matm(t-1)/2.12)/(Matm(0)/2.12))
        deltaT(t)=lambda*Q(t)
 
 
-      write(1,*)t+t0,Matm(t),netfluxe(t),netfluxo(t),deltaT(t),fin1850
-
-      print*,t+t0,Matm(t),netfluxe(t),netfluxo(t),deltaT(t),fin1850(t)
-       write(3,*)t+1850, fin1850(t)
-        print*, t+1850,fin1850(t)
+      !write(1,*)t+t0,Matm(t),netfluxe(t),netfluxo(t),deltaT(t),fin1850
+      !print*,t+t0,Matm(t),netfluxe(t),netfluxo(t),deltaT(t),fin1850(t)
+       !write(3,*)t+1850, fin1850(t)
+        !print*, t+1850,fin1850(t)
+        
+       !write(2,*)t+t0,Mls(t), Mtb(t), Mso(t), Mob(t), Mdo(t)
+        !print*,t+t0,Mls(t), Mtb(t), Mso(t), Mob(t), Mdo(t)
+        !write(5,*)t+t0, Matm(t), deltaT(t)
+        !print*,t+t0, Matm(t), deltaT(t)
+        write(6,*)t+t0, AF(t)
+        print*,t+t0, AF(t)
        enddo
        stop
 
