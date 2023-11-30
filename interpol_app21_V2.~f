@@ -1,0 +1,62 @@
+        program interpolation
+        implicit none
+
+        integer, parameter :: num_points = 131
+          real(8), dimension(num_points) :: xinter, yinter, zinter
+            real(8), dimension(14) :: xd, yd, zd
+              real(8) :: x_min, x_max, step
+                integer :: i
+
+  ! Lecture des données à partir du fichier Appendix-2.1-AB.txt
+      open(unit=10, file='Appendix-2.1-AB.txt', status='old')
+      do i = 1, 14
+      read(10, *) xd(i), yd(i), zd(i)
+        end do
+          close(10)
+
+  ! Détermination des bornes de l'interpolation
+                    x_min = minval(xd)
+                      x_max = maxval(xd)
+                        step = (x_max - x_min) / real(num_points - 1)
+
+  ! Interpolation linéaire
+      do i = 1, num_points
+      xinter(i) = x_min + real(i-1) * step
+      yinter(i) = interl(xinter(i), xd, yd)
+      zinter(i) = interl(xinter(i), xd, zd)
+      end do
+
+  ! Affichage des résultats
+              do i = 1, num_points
+              write(*, '(3F8.3)') xinter(i), yinter(i), zinter(i)
+              print*, xinter(i), yinter(i), zinter(i)
+              end do
+
+  ! Écriture des résultats dans un fichier texte
+             open(unit=20, file='interpol_App21.txt', status='unknown')
+             do i = 1, num_points
+             write(20, '(3F8.3)') xinter(i), yinter(i), zinter(i)
+             end do
+             close(20)
+
+             contains
+
+  ! Fonction pour l'interpolation linéaire
+             real(8) function interl(x, xd, yd)
+                 real(8), intent(in) :: x
+                     real(8), dimension(:), intent(in) :: xd, yd
+                         integer :: i
+
+                             do i = 1, size(xd)-1
+      if (x >= xd(i) .and. x <= xd(i+1)) then
+        interl = yd(i)+(yd(i+1) - yd(i))/(xd(i+1) - xd(i)) * (x - xd(i))
+        return
+      end if
+          end do
+
+    ! Si x est en dehors de la plage de données, renvoie une valeur par défaut
+      interl = 0.0
+      end function interl
+
+      end program interpolation
+
